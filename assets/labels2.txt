@@ -1,0 +1,10 @@
+0 apple
+1 banana
+2 broccoli
+3 carrot
+4 cucumber
+5 kiwi
+6 lemon
+7 onion
+8 orange
+9 tomato

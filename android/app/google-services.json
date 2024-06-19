@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "123396758600",
+    "project_id": "recipewise-3ef87",
+    "storage_bucket": "recipewise-3ef87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123396758600:android:f2fe1cf2ea1d49c4804c7d",
+        "android_client_info": {
+          "package_name": "com.example.recipewise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_fiB5fmBtDhONJ7Aoutcoay_yxfk-r_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

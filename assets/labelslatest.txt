@@ -1,0 +1,6 @@
+0 bittergourd
+1 brinjal
+2 capsicum
+3 carrot
+4 cauliflower
+
