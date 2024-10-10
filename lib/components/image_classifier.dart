@@ -51,9 +51,9 @@ class _ImageClassifierState extends State<ImageClassifier> {
       labels: 'assets/bestmodellabels.txt',
       modelPath: 'assets/bestmodel.tflite',
       modelVersion: "yolov8",
-      quantization: false,
+      quantization: true,
       numThreads: 1,
-      useGpu: false,
+      useGpu: true,
     );
 
     classifyImages(imageFiles);
