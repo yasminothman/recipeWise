@@ -7,6 +7,8 @@ import "package:recipewise/pages/favourite.dart";
 import "package:recipewise/pages/homepage.dart";
 import 'package:local_auth/local_auth.dart';
 
+import "informationpage.dart";
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -174,34 +176,49 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () => editField('password'),
                 ),
 
-                Container(
-                  height: 70,
-                  decoration: BoxDecoration(
-                      color: Color(0xFF245651),
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.shade600,
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(0, 5))
-                      ]),
-                  padding: const EdgeInsets.only(left: 15, bottom: 15, top: 15),
-                  margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Tips",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => InfoPage(
+                          onOkayPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
-                      )
-                    ],
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 70,
+                    decoration: BoxDecoration(
+                        color: Color(0xFF245651),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.shade600,
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: const Offset(0, 5))
+                        ]),
+                    padding:
+                        const EdgeInsets.only(left: 15, bottom: 15, top: 15),
+                    margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Tips",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
 
@@ -250,69 +267,6 @@ class _ProfilePageState extends State<ProfilePage> {
             );
           }
         },
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFF245651),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: BottomAppBar(
-            elevation: 10,
-            color: Colors.transparent,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            height: 60,
-            notchMargin: 5.0,
-            shape: CircularNotchedRectangle(),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      HomePage();
-                    },
-                    icon: Icon(
-                      Icons.home_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()));
-                    },
-                    icon: Icon(
-                      Icons.person_2_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Favourite(),
-                        ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.favorite_outline_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Calendar(),
-                        ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.calendar_month_outlined,
-                      color: Colors.white,
-                    )),
-              ],
-            )),
       ),
     );
   }
@@ -496,7 +450,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Text("❗  Add recipes to the calendar",
+            child: Text("❗  Select recipes based on the time of your meal",
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16)),
           ),
           SizedBox(
@@ -504,7 +458,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Text("❗  Get reminders through push notifications",
+            child: Text("❗  Filter recipes according to your preferences",
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16)),
           ),
           SizedBox(

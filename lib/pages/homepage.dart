@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_fonts/google_fonts.dart';
 import "package:http/http.dart" as http;
@@ -10,12 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipewise/components/image_classifier.dart';
 import 'package:recipewise/models/recipe_model.dart';
-import 'package:recipewise/pages/calendar.dart';
-
 import 'package:recipewise/pages/profile.dart';
 import 'package:recipewise/pages/recipe_card.dart';
-
 import 'favourite.dart';
+import 'dart:math';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,7 +31,28 @@ class _HomePageState extends State<HomePage> {
   File? _selectedImage;
   int _page = 1;
 
+  final List<Widget> _pages = [
+    Favourite(),
+    HomePage(),
+    ProfilePage(),
+  ];
+  // Define a list of  ingredients
+  final List<String> sampleIngredients = [
+    "carrot",
+    "chilli",
+    "eggplant",
+    "onion",
+    "pepper",
+    "potato",
+    "pumpkin",
+    "zucchini"
+  ];
+
   getRecipes(String query) async {
+    setState(() {
+      _loading = true; // Show loading indicator while fetching
+      recipes.clear(); // Clear existing recipes before fetching new ones
+    });
     String url =
         "https://api.edamam.com/search?q=$query&app_id=04e7aefd&app_key=83430c44b46e218e117cc8d8955c05d1&health=alcohol-free";
 
@@ -47,7 +65,10 @@ class _HomePageState extends State<HomePage> {
 
       recipes.add(recipeModel);
     });
-    print("${recipes.toString()}");
+    //print("${recipes.toString()}");
+    setState(() {
+      _loading = false; // Hide loading indicator after fetching
+    });
   }
 
   Future getDocId() async {
@@ -98,6 +119,12 @@ class _HomePageState extends State<HomePage> {
             imageFiles: _selectedImages.map((file) => File(file.path)).toList(),
             pickImageFromGallery: _pickImageFromGallery,
             pickImageFromCamera: _pickImageFromCamera,
+            onImagesUpdated: (updatedImages) {
+              setState(() {
+                _selectedImages =
+                    updatedImages.map((file) => XFile(file.path)).toList();
+              });
+            },
           ),
         ),
       );
@@ -108,7 +135,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     getDocId();
     // TODO: implement initState
+    fetchRandomRecipes();
     super.initState();
+  }
+
+  void fetchRandomRecipes() {
+    // Select a random ingredient from the list
+    String randomIngredient =
+        sampleIngredients[Random().nextInt(sampleIngredients.length)];
+    getRecipes(randomIngredient);
   }
 
   @override
@@ -231,7 +266,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(
-              height: 50,
+              height: 15,
             ),
             //list of suggested recipes scrolled horizontally
             Container(
@@ -252,89 +287,34 @@ class _HomePageState extends State<HomePage> {
       ),
 
       //bottom navigation bar
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: SpeedDial(
-        icon: Icons.camera_enhance_rounded,
-        backgroundColor: Colors.green,
-        overlayColor: Colors.white,
-        overlayOpacity: 0.4,
-        children: [
-          SpeedDialChild(
-              onTap: () async {
-                _pickImageFromCamera();
-              },
-              child: Icon(Icons.camera_enhance_outlined),
-              label: 'Open Camera'),
-          SpeedDialChild(
-              onTap: () async {
-                _pickImageFromGallery();
-              },
-              child: Icon(Icons.image_outlined),
-              label: 'Upload Image')
-        ],
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFF245651),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 80.0),
+        child: SizedBox(
+          width: 80.0,
+          height: 80.0,
+          child: SpeedDial(
+            icon: Icons.camera_alt,
+            backgroundColor: Color(0xFF245651),
+            overlayColor: Colors.white,
+            foregroundColor: Colors.white,
+            overlayOpacity: 0.4,
+            children: [
+              SpeedDialChild(
+                  onTap: () async {
+                    _pickImageFromCamera();
+                  },
+                  child: Icon(Icons.camera_enhance_outlined),
+                  label: 'Open Camera'),
+              SpeedDialChild(
+                  onTap: () async {
+                    _pickImageFromGallery();
+                  },
+                  child: Icon(Icons.image_outlined),
+                  label: 'Upload Image')
+            ],
+          ),
         ),
-        child: BottomAppBar(
-            elevation: 10,
-            color: Colors.transparent,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            height: 60,
-            notchMargin: 5.0,
-            shape: CircularNotchedRectangle(),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      HomePage();
-                    },
-                    icon: Icon(
-                      Icons.home_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()));
-                    },
-                    icon: Icon(
-                      Icons.person_2_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Favourite(),
-                        ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.favorite_outline_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Calendar(),
-                        ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.calendar_month_outlined,
-                      color: Colors.white,
-                    )),
-              ],
-            )),
       ),
     );
   }

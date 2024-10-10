@@ -1,8 +1,0 @@
-0 carrot
-1 chilli
-2 eggplant
-3 onion
-4 pepper
-5 potato
-6 pumpkin
-7 zucchini

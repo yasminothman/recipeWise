@@ -26,7 +26,7 @@ android {
     namespace "com.example.recipewise"
     compileSdkVersion 34
     ndkVersion flutter.ndkVersion
- aaptOptions {
+    aaptOptions {
             noCompress 'tflite'
             noCompress 'lite'
         }

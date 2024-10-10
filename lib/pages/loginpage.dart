@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:recipewise/components/square_tile.dart';
 import 'package:recipewise/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -101,31 +102,52 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
 
               //sign in button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: GestureDetector(
-                  onTap: signIn,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Color(0x245651),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                        child: Text(
-                      'Sign In',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    )),
+                child: ElevatedButton(
+                  onPressed: signIn,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[200], // Background color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 150), // Adjust padding as needed
+                  ),
+                  child: Text(
+                    'Sign In',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
+              GestureDetector(
+                onTap: () => AuthService().signInWithGoogle(),
+                child: Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.grey[200],
+                    ),
+                    child: SquareTile(
+                        imagePath: 'assets/google-g-logo.jpg',
+                        onTap: () => AuthService().signInWithGoogle())),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+
               //register button
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -137,25 +159,16 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     width: 10,
                   ),
-                  ElevatedButton(
-                      onPressed: widget.showRegisterPage,
-                      child: Text("Register Now"))
+                  GestureDetector(
+                    onTap: widget.showRegisterPage,
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(
+                          color: Colors.blue, fontWeight: FontWeight.bold),
+                    ),
+                  )
                 ],
               ),
-              GestureDetector(
-                onTap: () => AuthService().signInWithGoogle(),
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.grey[200],
-                  ),
-                  child: Image.asset(
-                    'assets/google-g-logo.jpg',
-                  ),
-                ),
-              )
             ],
           ),
         ),
