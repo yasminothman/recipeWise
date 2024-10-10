@@ -5,10 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import 'favourite.dart';
-import 'homepage.dart';
-import 'profile.dart';
-
 class RecipeView extends StatefulWidget {
   final String postUrl;
   String source, title, imgUrl;
@@ -116,60 +112,6 @@ class _RecipeViewState extends State<RecipeView> {
           color: Colors.white,
         ),
         backgroundColor: Colors.red,
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: BottomAppBar(
-            elevation: 10,
-            color: Colors.transparent,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            height: 60,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      HomePage();
-                    },
-                    icon: Icon(
-                      Icons.home_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()));
-                    },
-                    icon: Icon(
-                      Icons.person_2_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Favourite(),
-                        ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.favorite_outline_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.calendar_month_outlined,
-                      color: Colors.white,
-                    )),
-              ],
-            )),
       ),
     );
   }

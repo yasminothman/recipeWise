@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipewise/pages/recipe_view.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,8 +13,27 @@ class _FavouriteState extends State<Favourite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFE6F6CB),
       appBar: AppBar(
-        title: Text('Favourite Recipes'),
+        title: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.restaurant_menu),
+              SizedBox(
+                width: 10,
+              ),
+              Text('RecipeWise')
+            ],
+          ),
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+              },
+              icon: Icon(Icons.lock_open_rounded))
+        ],
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('favourite').snapshots(),
@@ -30,11 +50,30 @@ class _FavouriteState extends State<Favourite> {
 
           return ListView(
             children: snapshot.data!.docs.map((doc) {
-              return FavouriteTile(
-                title: doc['title'],
-                imgUrl: doc['imgUrl'],
-                source: doc['source'],
-                url: doc['url'],
+              return Dismissible(
+                key: Key(doc.id),
+                direction: DismissDirection.endToStart,
+                onDismissed: ((direction) {
+                  FirebaseFirestore.instance
+                      .collection('favourite')
+                      .doc(doc.id)
+                      .delete();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content:
+                          Text('${doc['title']} removed from favourites')));
+                }),
+                background: Container(
+                  color: Colors.red,
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Icon(Icons.delete, color: Colors.white),
+                ),
+                child: FavouriteTile(
+                  title: doc['title'],
+                  imgUrl: doc['imgUrl'],
+                  source: doc['source'],
+                  url: doc['url'],
+                ),
               );
             }).toList(),
           );

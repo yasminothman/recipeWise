@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:recipewise/components/square_tile.dart';
 import 'package:recipewise/services/auth_service.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -178,22 +179,27 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(height: 10),
 
               //sign in button
+              //sign in button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: GestureDetector(
-                  onTap: signUp,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Color(0x245651),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                        child: Text(
-                      'Sign Up',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    )),
+                child: ElevatedButton(
+                  onPressed: signUp,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[200], // Background color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 150), // Adjust padding as needed
+                  ),
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ),
@@ -204,19 +210,18 @@ class _RegisterPageState extends State<RegisterPage> {
               GestureDetector(
                 onTap: () => AuthService().signInWithGoogle(),
                 child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.grey[200],
-                  ),
-                  child: Image.asset(
-                    'assets/google-g-logo.jpg',
-                  ),
-                ),
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.grey[200],
+                    ),
+                    child: SquareTile(
+                        imagePath: 'assets/google-g-logo.jpg',
+                        onTap: () => AuthService().signInWithGoogle())),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -228,13 +233,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   GestureDetector(
                     onTap: widget.showLoginPage,
                     child: Text(
-                      'Sign In',
+                      'Sign Up',
                       style: TextStyle(
                           color: Colors.blue, fontWeight: FontWeight.bold),
                     ),
                   )
                 ],
-              )
+              ),
             ],
           ),
         ),

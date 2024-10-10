@@ -2,6 +2,7 @@ import "dart:convert";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:http/http.dart" as http;
 import "package:flutter/material.dart";
+import "package:recipewise/components/bottom_navi.dart";
 import "package:recipewise/models/recipe_model.dart";
 import "package:recipewise/pages/recipe_card.dart";
 
@@ -50,6 +51,7 @@ class _RecipeListState extends State<RecipeList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFE6F6CB),
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -68,6 +70,36 @@ class _RecipeListState extends State<RecipeList> {
             icon: Icon(Icons.lock_open_rounded),
           ),
         ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(50.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: null, // Button is not clickable
+                  child: Text(
+                    'Breakfast',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: null, // Button is not clickable
+                  child: Text('Lunch', style: TextStyle(color: Colors.black)),
+                ),
+                ElevatedButton(
+                  onPressed: null, // Button is not clickable
+                  child: Text('Dinner', style: TextStyle(color: Colors.black)),
+                ),
+                IconButton(
+                  onPressed: null, // Button is not clickable
+                  icon: Icon(Icons.filter_list),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       body: recipes.isEmpty
           ? Center(
@@ -90,60 +122,6 @@ class _RecipeListState extends State<RecipeList> {
                 ),
               ),
             ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: BottomAppBar(
-            elevation: 10,
-            color: Colors.transparent,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            height: 60,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      HomePage();
-                    },
-                    icon: Icon(
-                      Icons.home_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()));
-                    },
-                    icon: Icon(
-                      Icons.person_2_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Favourite(),
-                        ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.favorite_outline_outlined,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.calendar_month_outlined,
-                      color: Colors.white,
-                    )),
-              ],
-            )),
-      ),
     );
   }
 }
