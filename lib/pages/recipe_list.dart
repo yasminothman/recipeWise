@@ -32,9 +32,7 @@ class _RecipeListState extends State<RecipeList> {
 
   getRecipes(String query) async {
     print("masuk get recipes");
-    String url =
-        "https://api.edamam.com/search?q=$query&app_id=04e7aefd&app_key=83430c44b46e218e117cc8d8955c05d1&health=alcohol-free";
-
+    String url = "API_KEY"
     var response = await http.get(Uri.parse(url));
     Map<String, dynamic> jsonData = jsonDecode(response.body);
     jsonData["hits"].forEach((element) {
